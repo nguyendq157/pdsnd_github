@@ -6,46 +6,50 @@ CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
               'washington': 'washington.csv' }
 
-def get_filters():
+def check_data_entry(prompt, valid_entries): 
     """
-    Asks user to specify a city, month, and day to analyze.
+    Function that asks the user to input data and verifies if it's valid.
+    This simplifies the get_filters() function, where we need to ask the user for three inputs.
+    Args:
+        (str) prompt - message to show to the user
+        (list) valid_entries - list of accepted strings 
+    Returns:
+        (str) user_input - user's valid input
+    """
+    try:
+        user_input = str(input(prompt)).lower()
+        while user_input not in valid_entries : 
+            print('It looks like your entry is incorrect.')
+            print('Let\'s try again!')
+            user_input = str(input(prompt)).lower()
 
+        print('Great! You\'ve chosen: {}\n'.format(user_input))
+        return user_input
+
+    except:
+        print('There seems to be an issue with your input.')
+
+def get_filters(): 
+    """
+    Function to ask the user for a city, month, and day to analyze.
     Returns:
         (str) city - name of the city to analyze
         (str) month - name of the month to filter by, or "all" to apply no month filter
         (str) day - name of the day of week to filter by, or "all" to apply no day filter
     """
     print('Hello! Let\'s explore some US bikeshare data!')
-    # TO DO: get user input for city (chicago, new york city, washington).
-    valid_cities = ['chicago', 'new york city', 'washington']
-    while True:
-        city = input("Would you like to see data for Chicago, New York City, or Washington?\n").strip().lower()
-        if city in valid_cities:
-            break
-        else:
-            print("Please enter one of following cities:")
+    valid_cities = CITY_DATA.keys()
+    prompt_cities = 'Choose one of the 3 cities (chicago, new york city, washington): '
+    city = check_data_entry(prompt_cities, valid_cities)
 
-    filter_data = input("Would you like to filter the data by month, day, or not at all? Type \"none\" for no time filter.\n").strip().lower()
-    month = "all"
-    day = "all"
-    if "month" == filter_data:
-        # TO DO: get user input for month (all, january, february, ... , june)
-        valid_months = ['january', 'february', 'march', 'april', 'may', 'june', 'all']
-        while True:
-            month = input("Which month - January, February, March, April, May, or June?\n").strip().lower()
-            if month in valid_months:
-                break
-            else:
-                print("Please enter one of available month below or enter \'all\'!")
-    elif "day" == filter_data:
-        # TO DO: get user input for day of week (all, monday, tuesday, ... sunday)
-        valid_days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'sunday', 'all']
-        while True:
-            day = input("Which day - Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, or Sunday?\n").strip().lower()
-            if day in valid_days:
-                break
-            else:
-                print("Please enter the correct day of week or enter \'all\'")
+    valid_months = ['all','january','february','march','april','may','june']
+    prompt_month = 'Choose a month (all, january, february, ... , june): '
+    month = check_data_entry(prompt_month, valid_months)
+
+    valid_days = ['all','monday','tuesday','wednesday','thursday','friday','saturday', 'sunday']
+    prompt_day = 'Choose a day (all, monday, tuesday, ... sunday): '
+    day = check_data_entry(prompt_day, valid_days)
+
     print('-'*40)
     return city, month, day
 
@@ -198,6 +202,9 @@ def get_raw_data(df):
     Display that data if the answer is 'yes'
     Stop the program when the user says 'no' or there is no more raw data to display
     """
+	# Avoid the columns collapse and only a few are display when show raw data 
+	pd.set_option('display.max_columns', 200)
+
     x = 0
     while(input('\nWould you like to see 5 lines of raw data? Enter yes or no.\n').lower() != 'no'):
         x = x + 5
