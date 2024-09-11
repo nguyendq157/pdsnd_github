@@ -1,12 +1,8 @@
-## History update
-September 06, 2024: Initial this project
-September 12, 2024: Create README.md file
-
-## Project Title
-Explore US Bikeshare Data
+# Explore US Bikeshare Data
 
 ## Description
 This is my second project in Udacity course: Programming for Data Science with Python
+
 **Overview**
 I used Python to explore data related to bike share systems for three major cities in the United States—Chicago, New York City, and Washington.
 
