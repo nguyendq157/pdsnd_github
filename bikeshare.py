@@ -198,6 +198,9 @@ def get_raw_data(df):
     Display that data if the answer is 'yes'
     Stop the program when the user says 'no' or there is no more raw data to display
     """
+	# Avoid the columns collapse and only a few are display when show raw data 
+	pd.set_option('display.max_columns', 200)
+
     x = 0
     while(input('\nWould you like to see 5 lines of raw data? Enter yes or no.\n').lower() != 'no'):
         x = x + 5
